@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>球员列表</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="/static/css/layui.css" rel="stylesheet">
+    <script src="/static/js/layui.js"></script>
+    <style>
+        body {
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+
+        .search-form {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            margin-right: 0.5rem;
+        }
+
+        .regbg {
+            background-color: darkgrey;
+            color: white;
+            border: solid 1px;
+            border-radius: 3px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+
+<body>
+<a class="regbg" href="index">返回主页</a>
+<div class="layui-container">
+    <h1>球员列表</h1>
+
+    <form class="search-form" method="get" th:action="@{/players}">
+        <div class="layui-input-inline">
+            <input class="layui-input search-input" name="name" placeholder="输入姓名搜索" type="text"/>
+        </div>
+        <button class="layui-btn layui-btn-primary" type="submit">搜索</button>
+        <a class="layui-btn layui-btn-success" href="/players/add">添加球员</a>
+
+    </form>
+
+
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>照片</th>
+            <th>队伍</th>
+            <th>位置</th>
+            <th>年龄</th>
+            <th>身高</th>
+            <th>体重</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="player: ${players}">
+            <td th:text="${player.name}"></td>
+
+            <td><img style="width: 120px" th:src="@{'/upload/img/' + ${player.img}}"></td>
+            <td th:text="${player.team != null ? player.team.name : 'N/A'}"></td>
+            <td th:text="${player.position} + '&nbsp;&nbsp;' + ${player.number} + '号'"></td>
+            <td th:text="${player.age}"></td>
+            <td th:text="${player.height} + 'cm'"></td>
+            <td th:text="${player.weight} + 'kg'"></td>
+            <td>
+                <a class="layui-btn layui-btn-primary" th:href="@{/players/edit/{id}(id=${player.id})}">编辑</a>
+                <a class="layui-btn layui-btn-danger" th:href="@{/players/delete/{id}(id=${player.id})}">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Team</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: inline-block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+    input[type="text"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+        margin-top: 10px;
+    }
+
+    button[type="submit"] {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 16px;
+        font-size: 18px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0069d9;
+    }
+
+    a {
+        display: inline-block;
+        color: #007bff;
+        margin-top: 20px;
+    }
+
+    img {
+        display: block;
+        height: 180px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<body>
+
+<div class="container my-5">
+
+    <h1 class="mb-4">添加球队</h1>
+
+    <form enctype="multipart/form-data" method="post" th:action="@{/teams/add}" th:object="${team}">
+
+        <div class="form-group">
+            <label for="name">球队名称:</label>
+            <input class="form-control" id="name" required="required" th:field="*{name}" type="text"/>
+        </div>
+
+        <div class="form-group">
+            <label>球队区域：</label>
+            <div class="form-check">
+                <input class="form-check-input" id="area-atlantic" name="area" th:checked="*{area} eq '大西洋区'" type="radio"
+                       value="大西洋区"/>
+                <label class="form-check-label" for="area-atlantic">大西洋区</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="area-southeast" name="area" th:checked="*{area} eq '东南区'" type="radio"
+                       value="东南区"/>
+                <label class="form-check-label" for="area-southeast">东南区</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="area-central" name="area" th:checked="*{area} eq '中央分区'" type="radio"
+                       value="中央分区"/>
+                <label class="form-check-label" for="area-central">中央分区</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="area-pacific" name="area" th:checked="*{area} eq '太平洋区'" type="radio"
+                       value="太平洋区"/>
+                <label class="form-check-label" for="area-pacific">太平洋区</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="area-northwest" name="area" th:checked="*{area} eq '西北区'" type="radio"
+                       value="西北区"/>
+                <label class="form-check-label" for="area-northwest">西北区</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="area-southwest" name="area" th:checked="*{area} eq '西南区'" type="radio"
+                       value="西南区"/>
+                <label class="form-check-label" for="area-southwest">西南区</label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            球队Logo：<img id="logo" th:src="@{*{logo}}">
+            <input id="logobtn" name="logoFile" type="file">
+        </div>
+
+        <div>
+            <button class="btn btn-primary mr-2" type="submit">保存</button>
+            <a class="btn btn-secondary" th:href="@{/teams}">返回球队列表</a>
+        </div>
+
+    </form>
+
+</div>
+
+<script src="/static/js/bootstrap.bundle.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/jquery.js"></script>
+
+<script>
+    $(function () {
+        $("#logobtn").click(function (e) {
+            $('#logo').attr("src", "");
+        });
+        $("#logobtn").change(function (e) {
+            var logoBtn = e.target;
+            uploadLogo($('#logo'), logoBtn);
+        });
+
+        function uploadLogo(logo, tag) {
+            var file = tag.files[0];
+            var logoSrc;
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请选择一个图片！");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                logoSrc = this.result;
+                logo.attr("src", logoSrc);
+            };
+        }
+    });
+</script>
+
+</body>
+</html>

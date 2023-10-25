@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Add Player</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        select {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        button[type="submit"] {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 16px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+
+        a {
+            display: inline-block;
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        .player-image {
+            display: block;
+            height: 180px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>添加球员</h1>
+
+<form enctype="multipart/form-data" method="post" th:action="@{/players/add}" th:object="${player}">
+    <div class="form-group">
+        <label for="team_id">选择队伍</label>
+        <select class="form-control" id="team_id" th:field="*{team_id}">
+            <option th:each="team : ${allTeams}" th:text="${team.name}" th:value="${team.id}"></option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="name">姓名:</label>
+        <input class="form-control" id="name" required th:field="*{name}" type="text"/>
+    </div>
+
+    <div class="form-group">
+        <label for="number">球号:</label>
+        <input class="form-control" id="number" required th:field="*{number}" type="number"/>
+    </div>
+
+    <div class="form-group">
+        <label>位置：</label>
+        <label>
+            <input name="position" th:checked="*{position} eq '前锋'" type="radio" value="前锋"/>
+            前锋
+        </label>
+        <label>
+            <input name="position" th:checked="*{position} eq '中锋'" type="radio" value="中锋"/>
+            中锋
+        </label>
+        <label>
+            <input name="position" th:checked="*{position} eq '后卫'" type="radio" value="后卫"/>
+            后卫
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label for="age">年龄:</label>
+        <input class="form-control" id="age" required th:field="*{age}" type="number"/>
+    </div>
+
+    <div class="form-group">
+        <label for="height">身高:</label>
+        <input class="form-control" id="height" required step="0.01" th:field="*{height}" type="number"/>
+    </div>
+
+    <div class="form-group">
+        <label for="weight">体重:</label>
+        <input class="form-control" id="weight" required step="0.01" th:field="*{weight}" type="number"/>
+    </div>
+
+    <div class="form-group">
+        <label for="image">球员照片：</label>
+        <img class="player-image" id="image" th:src="@{*{img}}"/>
+        <input id="imgbtn" name="imgFile" type="file"/>
+    </div>
+
+    <button class="btn btn-primary" type="submit">保存</button>
+    <a class="btn btn-link" href="/players">返回球员列表</a>
+</form>
+
+<script src="/static/js/bootstrap.bundle.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/jquery.js"></script>
+
+<script>
+    $(function () {
+        $("#imgbtn").click(function (e) {
+            $('#image').attr("src", "");
+        });
+        $("#imgbtn").change(function (e) {
+            var imgBtn = e.target;
+            uploadImg($('#image'), imgBtn)
+        });
+
+        function uploadImg(img, tag) {
+            var file = tag.files[0];
+            var imgSrc;
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请选择一个图片！");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                imgSrc = this.result;
+                img.attr("src", imgSrc);
+            };
+        }
+    });
+</script>
+</body>
+
+</html>

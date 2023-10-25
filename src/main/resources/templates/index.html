@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>球队管理系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+
+        p {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .link {
+            margin: 0 10px;
+        }
+
+        .link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333333;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .link a:hover {
+            background-color: #666666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>球队管理系统</h1>
+    <p>欢迎来到球队管理系统，请在下面选择一个选项:</p>
+    <div class="links">
+        <div class="link">
+            <a href="/players">球员管理</a>
+        </div>
+        <div class="link">
+            <a href="/teams">球队管理</a>
+        </div>
+        <div class="link">
+            <a href="/">退出登录</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .delete-btn {
+            background-color: #ee8181;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background-color: #37c902;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+        .cancel-btn:hover {
+            background-color: #00ff0e;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- 在适当的位置显示球队名称和错误提示 -->
+    <h3>删除球队: <span th:text="${teamName}"></span></h3>
+    <p th:if="${error}" th:text="${error}"></p>
+
+    <!-- 确认消息和取消删除按钮 -->
+    <p>球队里有球员，你确定要删除该球队？</p>
+    <div class="buttons">
+        <button class="btn cancel-btn" onclick="location.href='/teams'" type="button">取消</button>
+        <form method="post" style="display: inline;" th:action="@{/teams/delete/{id}(id=${id})}">
+            <input name="_method" type="hidden" value="DELETE"/>
+            <button class="btn delete-btn" type="submit">强行删除（不建议）</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>球队管理</title>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link href="/static/css/layui.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            margin-right: 0.5rem;
+        }
+
+        .search-form {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 300px;
+            margin-right: 0.5rem;
+        }
+
+        .regbg {
+            background-color: darkgrey;
+            color: white;
+            border: solid 1px;
+            border-radius: 3px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+<a class="regbg" href="index">返回主页</a>
+<div class="layui-container">
+    <h1>球队管理</h1>
+
+    <form class="search-form" method="get" th:action="@{/teams}">
+        <div class="layui-input-inline">
+            <input class="layui-input search-input" name="name" placeholder="请输入球队名称" type="text"/>
+        </div>
+        <button class="layui-btn layui-btn-primary" type="submit">搜索</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-primary add-button" href="/teams/add">添加队伍</a>
+
+    </form>
+
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>区域</th>
+            <th>Logo</th>
+            <th>操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="team : ${teams}">
+            <td th:text="${team.id}"></td>
+            <td th:text="${team.name}"></td>
+            <td th:text="${team.area}"></td>
+            <td><img style="width: 120px" th:src="@{'/upload/logo/' + ${team.logo}}"></td>
+            <td>
+                <a class="layui-btn layui-btn-primary" th:href="@{/teams/view/{id}(id=${team.id})}">查看</a>
+                <a class="layui-btn layui-btn-primary" th:href="@{/teams/edit/{id}(id=${team.id})}">编辑</a>
+                <a class="layui-btn layui-btn-primary" th:href="@{/teams/delete/{id}(id=${team.id})}">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+</body>
+<script src="/static/js/bootstrap.bundle.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/layui.js"></script>
+</html>
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lz.football_management.dao.TeamDao">
+
+    <update id="updateTeam" parameterType="com.lz.football_management.entity.Team">
+
+        UPDATE team
+        <set>
+            name = #{name},
+            area = #{area},
+            <if test="logo!=null and logo != ''">
+                logo = #{logo},
+            </if>
+        </set>
+        WHERE id = #{id}
+
+    </update>
+
+    <delete id="deleteTeamById">
+        DELETE FROM team WHERE id = #{id}
+    </delete>
+
+    <!--    查询所有球队-->
+    <select id="findAllTeams" resultType="com.lz.football_management.entity.Team">
+        select * from team
+    </select>
+
+    <select id="selectTeamsByName" resultType="com.lz.football_management.entity.Team">
+        select * from team where name like concat('%', #{name}, '%')
+    </select>
+
+    <select id="findTeamById" resultType="com.lz.football_management.entity.Team" parameterType="int">
+        SELECT * FROM team WHERE id = #{id}
+    </select>
+
+    <!--    添加球队-->
+    <insert id="addTeam" parameterType="com.lz.football_management.entity.Team">
+        insert into team (name, area, logo)
+        values (#{name},#{area}, #{logo})
+    </insert>
+
+</mapper>

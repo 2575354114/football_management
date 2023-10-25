@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>球队球员列表</title>
+    <link href="/static/css/layui.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            text-align: center;
+
+        }
+
+        .regbg {
+            background-color: darkgrey;
+            color: white;
+            border: solid 1px;
+            border-radius: 3px;
+            padding: 5px 10px;
+        }
+
+    </style>
+</head>
+<body>
+<a class="regbg" href="javascript:void(0);" onclick="goBack()">返回</a>
+<div class="layui-container">
+    <h1><span th:text="${teamName}"></span>的球员列表</h1>
+    <table class="layui-table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>照片</th>
+            <th>位置</th>
+            <th>年龄</th>
+            <th>身高</th>
+            <th>体重</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="player : ${players}">
+            <td th:text="${player.name}"></td>
+            <td>
+                <img style="width: 120px" th:src="@{'/upload/img/' + ${player.img}}">
+            </td>
+            <td th:text="${player.position}"></td>
+            <td th:text="${player.age}"></td>
+            <td th:text="${player.height} + 'cm'"></td>
+            <td th:text="${player.weight} + 'kg'"></td>
+            <td>
+                <a class="layui-btn layui-btn-primary" th:href="@{/players/edit/{id}(id=${player.id})}">编辑</a>
+                <a class="layui-btn layui-btn-danger" th:href="@{/players/delete/{id}(id=${player.id})}">删除</a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<script src="/static/js/layui.js"></script>
+<script>
+    function goBack() {
+        history.back();
+    }
+</script>
+</body>
+</html>
+
